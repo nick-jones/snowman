@@ -72,7 +72,7 @@ module Snowman
       @buffer << " Bits: " << value_bits.colorize(color) << "\n"
       @buffer << " Decimal: " << value_decimal << "\n"
       @buffer << " Hex: " << value_hex << "\n"
-      @buffer << " Code Point: U+" << value_hex << "\n"
+      @buffer << " Codepoint: U+" << value_hex << "\n"
       @buffer << " Information: " << "http://codepoints.net/U+#{value_hex}" << "\n"
     end
   end
