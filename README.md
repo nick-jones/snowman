@@ -1,6 +1,6 @@
 # Snowman
 
-Snowman, ☃, is a basic UTF-8 character encoding visualiser. Given a UTF-8 encoded character, is displays information
+Snowman, ☃, is a basic UTF-8 character encoding visualiser. Given a UTF-8 encoded character, it displays information
 about the component parts, and shows how the codepoint can be determined.
 
 This is a play project, and has little practical use.
