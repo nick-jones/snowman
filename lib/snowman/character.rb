@@ -46,6 +46,23 @@ module Snowman
       bytes.map{ |byte| byte.components[:value] }.join('')
     end
 
+    # Indicates the plane in which this character resides
+    def plane
+      codepoint = @value.codepoints.first
+
+      if codepoint.between?(0x0000, 0xFFFF)
+        :bmp
+      elsif codepoint.between?(0x10000, 0x1FFFF)
+        :smp
+      elsif codepoint.between?(0x20000, 0x2FFFF)
+        :sip
+      elsif codepoint.between?(0xE0000, 0xEFFFF)
+        :ssp
+      elsif codepoint.between?(0xF0000, 0x10FFFF)
+        :pua
+      end
+    end
+
     # Builds a string representation of this character
     def to_s
       CharacterVisualiser.new.build(self)

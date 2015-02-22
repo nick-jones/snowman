@@ -3,6 +3,14 @@ require 'colorize'
 
 module Snowman
   class CharacterVisualiser
+    PLANE_DESCRIPTIONS = {
+        :bmp => 'Basic Multilingual',
+        :smp => 'Supplementary Multilingual',
+        :sip => 'Supplementary Ideographic',
+        :ssp => 'Supplementary Special-purpose',
+        :pua => 'Private Use Area'
+    }
+
     # Builds a string based representation of the supplied character, containing relevant information.
     def build(character)
       @buffer = StringIO.new
@@ -40,6 +48,7 @@ module Snowman
       @buffer << ' Bytes: ' << character.size << $/
       @buffer << ' Hex: ' << character.bytes.map{ |byte| byte.value.to_s(16) }.join(' ').upcase << $/
       @buffer << ' ASCII compatible: ' << character.ascii_compatible? << $/
+      @buffer << ' Plane: ' << PLANE_DESCRIPTIONS[character.plane] << $/
     end
 
     # Builds information about the supplied byte.
