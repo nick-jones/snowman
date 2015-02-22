@@ -18,7 +18,7 @@ module Snowman
 
     # Whether this is a valid UTF-8 character
     def utf8?
-      @value.encoding.name == "UTF-8"
+      @value.encoding.name == 'UTF-8'
     end
 
     # Whether this is an ASCII compatible character (assuming 7-bit)
@@ -43,7 +43,7 @@ module Snowman
 
     # Extracts the value bits from the contained bytes
     def value_bits
-      bytes.map{ |byte| byte.components[:value] }.join("")
+      bytes.map{ |byte| byte.components[:value] }.join('')
     end
 
     # Builds a string representation of this character
