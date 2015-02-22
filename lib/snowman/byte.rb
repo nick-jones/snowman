@@ -62,10 +62,10 @@ module Snowman
 
     # Extracts the high order and value components from the binary representation of the value.
     def resolve_components
-      result = {:high_order => "", :value => ""}
+      result = {:high_order => '', :value => ''}
       key = ascii? ? :value : :high_order
 
-      @value.to_s(2).rjust(8, "0").each_char do |char|
+      @value.to_s(2).rjust(8, '0').each_char do |char|
         result[key] += char
         key = :value if char.to_i == 0
       end
