@@ -8,7 +8,8 @@ module Snowman
         :smp => 'Supplementary Multilingual',
         :sip => 'Supplementary Ideographic',
         :ssp => 'Supplementary Special-purpose',
-        :pua => 'Private Use Area'
+        :puaa => 'Private Use Area (A)',
+        :puab => 'Private Use Area (B)'
     }
 
     def build(character)

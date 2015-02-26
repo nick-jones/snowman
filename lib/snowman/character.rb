@@ -49,8 +49,10 @@ module Snowman
         :sip
       elsif @codepoint.between?(0xE0000, 0xEFFFF)
         :ssp
-      elsif @codepoint.between?(0xF0000, 0x10FFFF)
-        :pua
+      elsif @codepoint.between?(0xF0000, 0xFFFFF)
+        :puaa
+      elsif @codepoint.between?(0x100000, 0x10FFFF)
+        :puab
       end
     end
 
