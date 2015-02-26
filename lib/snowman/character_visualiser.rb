@@ -11,7 +11,6 @@ module Snowman
         :pua => 'Private Use Area'
     }
 
-    # Builds a string based representation of the supplied character, containing relevant information.
     def build(character)
       @buffer = StringIO.new
 
@@ -38,20 +37,19 @@ module Snowman
       @buffer.string
     end
 
-    # Adds information about the value to the buffer.
+    protected
+
     def header(character)
       @buffer << ' Character: ' << character.value << $/
     end
 
-    # Adds basic details about the character to the buffer.
     def basic_details(character)
       @buffer << ' Bytes: ' << character.size << $/
-      @buffer << ' Hex: ' << character.bytes.map{ |byte| byte.value.to_s(16) }.join(' ').upcase << $/
-      @buffer << ' ASCII compatible: ' << character.ascii_compatible? << $/
+      @buffer << ' Hex: ' << character.bytes.map{ |byte| byte.value.to_s(16).upcase }.join(' ') << $/
+      @buffer << ' ASCII compatible: ' << (character.ascii_compatible? ? 'yes' : 'no') << $/
       @buffer << ' Plane: ' << PLANE_DESCRIPTIONS[character.plane] << $/
     end
 
-    # Builds information about the supplied byte.
     def byte_details(byte)
       # Extra indentation is required
       byte.to_s.lines.each do |line|
@@ -59,7 +57,6 @@ module Snowman
       end
     end
 
-    # A basic helper key for the various colours used.
     def byte_color_details
       @buffer << ' (bit colorings: '
 
@@ -71,18 +68,30 @@ module Snowman
       @buffer << ')' << $/
     end
 
-    # Adds details about the encoded value bits in the character to the buffer.
     def value_details(character)
       color = ByteVisualiser::PART_COLOURS[:value]
-      value_bits = character.value_bits
-      value_decimal = value_bits.to_i(2) # equivalent of character.value.codepoints.first
+      value_binary = extract_value_bits(character.bytes)
+      value_decimal = character.codepoint
       value_hex = value_decimal.to_s(16).upcase
+      value_codepoint = "U+#{value_hex}"
 
-      @buffer << ' Bits: ' << value_bits.colorize(color) << $/
+      @buffer << ' Binary: ' << value_binary.colorize(color) << $/
       @buffer << ' Decimal: ' << value_decimal << $/
-      @buffer << ' Hex: ' << value_hex << $/
-      @buffer << ' Codepoint: U+' << value_hex << $/
-      @buffer << ' Information: ' << "http://codepoints.net/U+#{value_hex}" << $/
+      @buffer << ' Hex: 0x' << value_hex << $/
+      @buffer << ' Codepoint: ' << value_codepoint << $/
+      @buffer << ' Details: ' << "http://codepoints.net/#{value_codepoint}" << $/
+    end
+
+    # This ensures '0' padding is retained from the values. If we used character.codepoint.to_s(2),
+    # this would be lost. Given we render the value portions for each byte in full, hopefully it is
+    # clearer if padding is retained.
+    def extract_value_bits(bytes)
+      bits = bytes.map do |byte|
+        pad = 7 - byte.high_order_bits
+        byte.value_portion.to_s(2).rjust(pad, '0')
+      end
+
+      bits.join('')
     end
   end
 end

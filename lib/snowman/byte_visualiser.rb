@@ -2,14 +2,12 @@ require 'colorize'
 
 module Snowman
   class ByteVisualiser
-    # Byte parts -> colour mappings.
     PART_COLOURS = {
         :leading => :red,
         :continuation => :yellow,
         :value => :green
     }
 
-    # Builds a description of the supplied byte, containing various pieces of relevant information.
     def build(byte)
       @buffer = StringIO.new
 
@@ -19,7 +17,8 @@ module Snowman
       @buffer.string
     end
 
-    # Adds basic information about the byte to the string buffer.
+    protected
+
     def header(byte)
       @buffer << 'Decimal: ' << byte.value << $/
       @buffer << 'Hex: ' << byte.value.to_s(16).upcase << $/
@@ -29,13 +28,28 @@ module Snowman
       @buffer << $/
     end
 
-    # Builds a binary representation of the byte, with the components colored appropriately.
     def binary_colorized(byte)
       result = ''
 
-      byte.components.each do |component, bits|
-        color = component == :high_order ? PART_COLOURS[byte.type] : PART_COLOURS[component]
+      resolve_components(byte).each do |part, bits|
+        if part == :high_order
+          part = byte.type == :ascii ? :leading : byte.type
+        end
+
+        color = PART_COLOURS[part]
         result += bits.colorize(color)
+      end
+
+      result
+    end
+
+    def resolve_components(byte)
+      result = {:high_order => '', :value => ''}
+      key = :high_order
+
+      byte.value.to_s(2).rjust(8, '0').each_char do |char|
+        result[key] += char
+        key = :value if char.to_i == 0
       end
 
       result
