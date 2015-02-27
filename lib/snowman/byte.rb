@@ -60,8 +60,8 @@ module Snowman
 
     def calculate_value_portion(value, high_order_bits)
       # Replaces the high order bits with 0s
-      high_order = 256 - (2 ** (8 - high_order_bits))
-      value ^ high_order
+      mask = (2 ** (7 - high_order_bits)) - 1
+      value & mask
     end
   end
 end

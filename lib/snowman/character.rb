@@ -63,11 +63,10 @@ module Snowman
     protected
 
     def codepoint_from_bytes(bytes)
-      result = offset = 0
+      result = 0
 
-      bytes.reverse_each do |byte|
-        result += byte.value_portion << offset
-        offset += 7 - byte.high_order_bits
+      bytes.reverse_each.with_index do |byte, i|
+        result |= byte.value_portion << (6 * i)
       end
 
       result
