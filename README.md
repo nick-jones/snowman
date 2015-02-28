@@ -18,4 +18,4 @@ available, then please use [Rake](http://rake.rubyforge.org/) to build and insta
 
 ## Screenshot
 
-![Screenshot](http://i.imgur.com/XKHADHr.png)
+![Screenshot](http://i.imgur.com/0hCcyFZ.png)
