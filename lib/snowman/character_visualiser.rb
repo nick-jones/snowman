@@ -78,7 +78,7 @@ module Snowman
 
       @buffer << ' Binary: ' << value_binary.colorize(color) << $/
       @buffer << ' Decimal: ' << value_decimal << $/
-      @buffer << ' Hex: 0x' << value_hex << $/
+      @buffer << ' Hex: ' << value_hex << $/
       @buffer << ' Codepoint: ' << value_codepoint << $/
       @buffer << ' Details: ' << "http://codepoints.net/#{value_codepoint}" << $/
     end
